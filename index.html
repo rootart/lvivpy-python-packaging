@@ -21,6 +21,11 @@
       <p><a href="http://djangostars.com">Django Stars</a>, vasyl.dizhak@djangostars.com</p>
   	</div></section>
 
+  	<section class="slide shout"><div>
+  		<h2>
+        <a style="font-size: 0.7em;" href="http://bit.ly/lvivpy-packaging">http://bit.ly/lvivpy-packaging</a>
+      </h2>
+  	</div></section>
 
   <!-- IMG -->
   <section class="slide cover active" id="Cover"><div>
@@ -42,10 +47,10 @@ by Guido van Rossum and Fred L. Drake, Jr</figcaption>
   		<ol>
   			<li>Extremely simple for users</li>
   			<li class="next">As a package author you will like it</li>
-  			<li class="next">Neat way to distribute your package</li>
-  			<li class="next"><mark>PEP 20</mark>There should be one-- and preferably only one --obvious way to do it.</li>
+  			<li class="next">Neat way to distribute your package and simplify deployments</li>
+  			<li class="next"><mark>PEP 20</mark> There should be one-- and preferably only one --obvious way to do it.</li>
+        <li>Play nice with others</li>
   			<li class="next">Because you want to share packages for free</li>
-
   		</ol>
   	</div></section>
 
@@ -57,8 +62,21 @@ by Guido van Rossum and Fred L. Drake, Jr</figcaption>
   			<figcaption>Linus Torvalds</figcaption>
   		</figure>
   	</div></section>
-    
+
+
+    <section class="slide active" id="CurrentState"><div>
+      <figure><img src="img/state_of_packaging.jpg" alt=""></figure>
+      <div>The Hitchhiker's Guide to Packaging 1.0 documentation <a href="http://guide.python-distribute.org/introduction.html#current-state-of-packaging">link</a></div>
+    	</div></section>
+
+
+      <section class="slide cover w" id="PM"><div>
+        <img src="img/pm.png" alt="">
+      	</div></section>
+
+
   	<section class="slide" id="MinimalStructure"><div>
+      <header>Minimal structure</header>
       <pre>
         <code>
           ➜  development $ tree -L 2 VotePackage
@@ -68,8 +86,64 @@ by Guido van Rossum and Fred L. Drake, Jr</figcaption>
           ├── <mark>setup.py</mark>
           └── votepackage
               └── <mark>__init__.py</mark>
-
           2 directories, 6 files
+        </code>
+      </pre>
+  	</div></section>
+  
+  
+  	<section class="slide" id="MinimalSetup"><div>
+      <header>Minimal setup.py data</header>
+      <pre>
+        <code style="font-size: 0.7em; line-height: 1.4em">
+          from <mark>distutils</mark>.core import <mark>setup</mark>
+          setup(
+              name='VotePackage',
+              version='0.1dev',
+              author='Vasyl Dizhak',
+              author_email='vasyl.dizhak@djangostars.com',
+              description='Centralized system for python package voting',
+              packages=['votepackage',],
+              license='Simplified BSD License',
+              long_description=open('README.txt').read(),
+          )
+        </code>
+      </pre>
+  	</div></section>
+
+  	<section class="slide" id="MinimalSetupName"><div>
+      <header>Minimal setup.py data: <mark>name</mark></header>
+      <pre>
+        <code style="font-size: 0.9em; line-height: 1.4em">
+          <mark>...</mark>
+          name='VotePackage'
+          <mark>...</mark>
+        </code>
+      </pre>
+      Has to be unique name.
+      <pre>
+        <code style="font-size: 0.9em; line-height: 1.4em">
+          http://pypi.python.org/pypi/<mark>&lt;name&gt;</mark>
+        </code>
+      </pre>
+  	</div></section>
+
+  	<section class="slide" id="MinimalSetupVersion"><div>
+      <header>Minimal setup.py data: <mark>version</mark></header>
+      PEP 386 -- Changing the version comparison module in Distutils <a href="http://www.peps.io/386/">http://www.peps.io/386/</a>
+      <pre>
+        <code style="font-size: 0.9em; line-height: 1.4em">
+ >>> from distutils.version import <mark>LooseVersion</mark> as V
+ >>> v1 = V(<mark>'1.0dev'</mark>)
+ >>> v2 = V(<mark>'1.0.9alpha'</mark>)
+ >>> v2 > v1
+ >>> False
+        </code>
+      </pre>
+
+      <pre>
+        <code style="font-size: 0.9em; line-height: 1.4em">
+$ pip install -U <mark>name</mark>
         </code>
       </pre>
   	</div></section>
