@@ -49,7 +49,7 @@ by Guido van Rossum and Fred L. Drake, Jr</figcaption>
   			<li class="next">As a package author you will like it</li>
   			<li class="next">Neat way to distribute your package and simplify deployments</li>
   			<li class="next"><mark>PEP 20</mark> There should be one-- and preferably only one --obvious way to do it.</li>
-        <li>Play nice with others</li>
+        <li class="next">Play nice with others</li>
   			<li class="next">Because you want to share packages for free</li>
   		</ol>
   	</div></section>
@@ -76,7 +76,7 @@ by Guido van Rossum and Fred L. Drake, Jr</figcaption>
 
 
   	<section class="slide" id="MinimalStructure"><div>
-      <header>Minimal structure</header>
+      <h2>Minimal structure</h2>
       <pre>
         <code>
           ➜  development $ tree -L 2 VotePackage
@@ -93,7 +93,7 @@ by Guido van Rossum and Fred L. Drake, Jr</figcaption>
   
   
   	<section class="slide" id="MinimalSetup"><div>
-      <header>Minimal setup.py data</header>
+      <h2>Minimal setup.py data</h2>
       <pre>
         <code style="font-size: 0.7em; line-height: 1.4em">
           from <mark>distutils</mark>.core import <mark>setup</mark>
@@ -112,7 +112,7 @@ by Guido van Rossum and Fred L. Drake, Jr</figcaption>
   	</div></section>
 
   	<section class="slide" id="MinimalSetupName"><div>
-      <header>Minimal setup.py data: <mark>name</mark></header>
+      <h2>Minimal setup.py data: <mark>name</mark></h2>
       <pre>
         <code style="font-size: 0.9em; line-height: 1.4em">
           <mark>...</mark>
@@ -128,8 +128,17 @@ by Guido van Rossum and Fred L. Drake, Jr</figcaption>
       </pre>
   	</div></section>
 
+
+  	<section class="slide" id="MinimalSetupPackage"><div>
+      <h2>Minimal setup.py data: <mark>package</mark></h2>
+      <pre><code>
+packages=<mark>['votepackage', 'votepackage.tests']</mark>
+        </code>
+      </pre>
+  	</div></section>
+
   	<section class="slide" id="MinimalSetupVersion"><div>
-      <header>Minimal setup.py data: <mark>version</mark></header>
+      <h2>Minimal setup.py data: <mark>version</mark></h2>
       PEP 386 -- Changing the version comparison module in Distutils <a href="http://www.peps.io/386/">http://www.peps.io/386/</a>
       <pre>
         <code style="font-size: 0.9em; line-height: 1.4em">
@@ -148,13 +157,125 @@ $ pip install -U <mark>name</mark>
       </pre>
   	</div></section>
 
-	<section class="slide"><div>
-		<h2>Header</h2>
-		<p>Typewriter etsy messenger bag <a href="">fingerstache</a>, aesthetic vinyl semiotics twee <strong>DIY</strong> forage chillwave. Thundercats ennui messenger bag, <em>squid</em> carles chillwave shoreditch pickled cliche <b>letterpress</b>. DIY beard locavore <i>occupy</i> salvia, whatever single-origin <code>coffee</code> fanny pack 3 wolf moon typewriter gastropub kale chips. Ennui keffiyeh thundercats jean shorts biodiesel. Terry richardson, swag blog locavore umami vegan helvetica. Fingerstache kale chips.</p>
-		<footer>
-			Typewriter etsy messenger bag fingerstache.
-		</footer>
+
+  	<section class="slide" id="MinimalSetupAuthor"><div>
+      <h2>Minimal setup.py data: <mark>author</mark></h2>
+      People may buy you a beer <a href="www.gittip.com">www.gittip.com</a>
+      <pre>
+        <code style="font-size: 0.9em; line-height: 1.4em">
+  <mark>author</mark>='Vasyl Dizhak',
+  <mark>author_email</mark>='vasyl.dizhak@djangostars.com',
+  
+  
+  <mark>maintainer</mark>='Vasyl Dizhak',
+  <mark>maintainer_email</mark>='vasyl.dizhak@djangostars.com',
+ 
+        </code>
+      </pre>
+  	</div></section>
+
+
+  	<section class="slide" id="MinimalSetupDescription"><div>
+      <h2>Minimal setup.py data: <mark>description</mark></h2>
+      May be a first or even the <mark>only</mark> place where users will look and decide whether they will use your package.
+      PYPI will render <mark>long_description</mark> with docutils reStructuredText renderer
+      <pre><code>
+<mark>long_description</mark>=open('README.md').read(),
+        </code>
+      </pre>
+  	</div></section>
+
+  	<section class="slide" id="MinimalSetupFiles"><div>
+      <h2>Minimal setup.py data: <mark>MANIFEST.in</mark></h2>
+          Only Python modules and packages are included in the package by default. To include additional files, we’ll need to create a MANIFEST.in file
+      <pre><code>
+<mark>include</mark> LICENSE
+include README.rst
+<mark>recursive-include</mark> votepackage/static *
+recursive-include votepackage/templates *
+        </code>
+      </pre>
+  	</div></section>
+
+  	<section class="slide shout" id="LeanRelease"><div>
+  		<h2>
+        Lean release
+      </h2>
+  	</div></section>
+  
+  	<section class="slide shout" id="Register"><div>
+  		<h2 style="font-size: 3em">
+        $ python setup.py register
+      </h2>
+  	</div></section>
+  
+  	<section class="slide shout" id="Upload"><div>
+  		<h2 style="font-size: 3em">
+        $ python setup.py <mark>sdist</mark> <mark> upload</mark>
+      </h2>
+  	</div></section> 
+
+	<section class="slide" id="WhatBeenDone"><div>
+    <h2>What have been done?</h2>
+		<ol>
+			<li>Build distributition <mark>VotePackage-0.1dev.tar.gz</mark> and upload it to PYPI</li>
+			<li class="next">You could build a package for your OS <mark>bdist_wininst</mark>, <mark>bdist_rpm</mark> etc</li>
+      <li class="next">You can use <mark>--repository=url</mark> for uploading package to your own cheeseshop</next>
+		</ol>
 	</div></section>
+
+	<section class="slide shout" id="TestingPart"><div>
+		<h2>
+      Testing
+    </h2>
+	</div></section>
+
+	<section class="slide" id="Tox"><div>
+    <h2>Tox</h2>
+    <p>Use <a href="http://testrun.org/tox/latest">tox</a> to automate package testing against different python versions</p>
+    <pre>
+      <code style="font-size: 0.6em; line-height: 1.4em">
+        import sys
+        from setuptools.command.test import test as <mark>TestCommand</mark>
+        class Tox(TestCommand):
+            def finalize_options(self):
+                TestCommand.finalize_options(self)
+                self.test_args = []
+                self.test_suite = True
+            def run_tests(self):
+                #import here, cause outside the eggs aren't loaded
+                import tox
+                errno = tox.cmdline(self.test_args)
+                sys.exit(errno)
+      </code>
+    </pre>
+	</div></section>
+
+	<section class="slide" id="Tox&setup.py"><div>
+    <h2>Tox.ini & setup.py</h2>
+    <pre>
+      <code style="font-size: 0.6em; line-height: 1.4em">
+        # content of: tox.ini , put in same dir as setup.py
+        [tox]
+        envlist = <mark>py25,py26,py27,py33</mark>
+        [testenv]
+        deps=pytest       # install pytest in the venvs
+        commands=<mark>py.test</mark>  # or 'nosetests' or ...
+
+      </code>
+    </pre>
+    <pre>
+      <code style="font-size: 0.6em; line-height: 1.4em">
+        # setup.py
+        <mark>...</mark>
+        tests_require=['tox'], #install tox package
+        cmdclass = {'test': Tox},
+      
+      </code>
+    </pre>
+	</div></section>
+
+    
 	<section class="slide"><div>
 		<h2>Header</h2>
 		<p>Thundercats ennui messenger bag, squid carles chillwave shoreditch pickled cliche letterpress. DIY beard locavore occupy salvia, whatever single-origin coffee fanny pack 3 wolf moon typewriter gastropub kale chips. Ennui keffiyeh thundercats jean shorts biodiesel. Terry richardson, swag blog locavore umami vegan helvetica. Fingerstache kale chips.</p>
