@@ -10,7 +10,7 @@
 <body class="list">
 	<header class="caption">
 		<h1>Small intro to Python packaging</h1>
-		<p><a href="http://djangostars.com">Vasyl Dizhak</a>, DjangoStars</p>
+		<p><a href="http://djangostars.com">Vasyl Dizhak</a></p>
 	</header>
   
   
@@ -18,7 +18,7 @@
   <section class="slide  active" id="Home"><div>
   		<h2 style="margin-top: 150px">Small intro to Python packaging</h2>
   		<p>Vasyl Dizhak <a href="">@rootart</a> </p>
-      <p><a href="http://djangostars.com">Django Stars</a>, vasyl.dizhak@djangostars.com</p>
+      <p>Project Lead at <a href="http://djangostars.com">Django Stars</a>, vasyl.dizhak@djangostars.com</p>
   	</div></section>
 
   	<section class="slide shout"><div>
@@ -110,6 +110,7 @@ by Guido van Rossum and Fred L. Drake, Jr</figcaption>
         </code>
       </pre>
   	</div></section>
+    
 
   	<section class="slide" id="MinimalSetupName"><div>
       <h2>Minimal setup.py data: <mark>name</mark></h2>
@@ -130,7 +131,7 @@ by Guido van Rossum and Fred L. Drake, Jr</figcaption>
 
 
   	<section class="slide" id="MinimalSetupPackage"><div>
-      <h2>Minimal setup.py data: <mark>package</mark></h2>
+      <h2>Minimal setup.py data: <mark>packages</mark></h2>
       <pre><code>
 packages=<mark>['votepackage', 'votepackage.tests']</mark>
         </code>
@@ -193,6 +194,60 @@ $ pip install -U <mark>name</mark>
 include README.rst
 <mark>recursive-include</mark> votepackage/static *
 recursive-include votepackage/templates *
+        </code>
+      </pre>
+  	</div></section>
+
+  	<section class="slide" id="MinimalSetupRequirements"><div>
+      <h2>setup: <mark>requirements</mark></h2>
+      <pre><code>
+        <mark>install_requires</mark> = [
+            'requests',
+            'pycli'
+        ],
+
+        </code>
+      </pre>
+  	</div></section>
+
+  	<section class="slide" id="PlatformRelay"><div>
+      <h2>Relay on <mark>platform</mark> or <mark>python version</mark></h2>
+      <pre><code>
+        if <mark>sys.version_info[:2]</mark> in ((2, 6), (3, 1)):
+            # argparse has been added in Python 3.2 / 2.7
+            requirements.append('argparse>=1.2.1')
+        if <mark>'win32'</mark> in str(sys.platform).lower():
+            # Terminal colors for Windows
+            requirements.append('colorama>=0.2.4')
+        </code>
+      </pre>
+  	</div></section>
+  
+  
+  
+  	<section class="slide" id="classifiers"><div>
+      <h2>Classifiers</h2>
+      PEP 301 -- Package Index and Metadata for Distutils <a href="http://peps.io/0301/">http://peps.io/0301/</a>
+      <pre><code style="font-size: 0.9em; line-height: 1.4em">
+        classifiers=[
+            'Development Status :: 1 - Planning',
+            'Intended Audience :: Developers',
+            'Environment :: Console',
+            'Programming Language :: Python :: 2.5',
+            'Programming Language :: Python :: 2.6',
+            'Programming Language :: Python :: 2.7',
+            'Programming Language :: Python :: 3.3'
+            'Framework :: Django'
+        ]
+        python setup.py register <mark>--list-classifiers</mark>
+        </code>
+      </pre>
+  	</div></section>
+
+  	<section class="slide" id="scripts"><div>
+      <h2>Console scripts</h2>
+      <pre><code style="font-size: 0.9em; line-height: 1.4em">
+        <mark>scripts</mark>=['django/bin/django-admin.py']
         </code>
       </pre>
   	</div></section>
@@ -309,135 +364,106 @@ recursive-include votepackage/templates *
 	</div></section>
 
 
-	<section class="slide"><div>
-		<h2>Lists in English typography</h2>
-		<ul>
-			<li>Ennui keffiyeh thundercats</li>
-			<li>Jean shorts biodiesel</li>
-			<li>Terry richardson, swag blog
-				<ol>
-					<li>Locavore umami vegan helvetica</li>
-					<li>Fingerstache kale chips</li>
-					<li>Keytar sriracha gluten-free</li>
-				</ol>
-			</li>
-			<li>Before they sold out master</li>
-		</ul>
+	<section class="slide shout" id="AsAUser"><div>
+		<h2>
+      As a user
+    </h2>
 	</div></section>
-	<section class="slide" lang="ru"><div>
-		<h2>Lists in Russian typography</h2>
-		<ul>
-			<li>Ennui keffiyeh thundercats</li>
-			<li>Jean shorts biodiesel</li>
-			<li>Terry richardson, swag blog
-				<ol>
-					<li>Locavore umami vegan helvetica</li>
-					<li>Fingerstache kale chips</li>
-					<li>Keytar sriracha gluten-free</li>
-				</ol>
-			</li>
-			<li>Before they sold out master</li>
-		</ul>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Lists in English typography</h2>
-		<ol>
-			<li>Locavore umami vegan helvetica</li>
-			<li>Fingerstache kale chips</li>
-			<li>Keytar sriracha gluten-free</li>
-		</ol>
-		<ul>
-			<li>Ennui keffiyeh thundercats</li>
-			<li>Jean shorts biodiesel</li>
-			<li>Terry richardson, swag blog</li>
-		</ul>
+
+	<section class="slide" id="PIPUsage"><div>
+    <h2>PIP & virtualenv</h2>
+    <pre>
+      <code style="font-size: 1em; line-height: 1.4em">
+        $ virtualenv <mark>env</mark>
+        $ pip <mark>install/uninstall</mark> package
+        $ pip <mark>freeze</mark> > requirements-dev.txt
+        $ pip install <mark>-r</mark> requirements-dev.txt
+        $ pip install ... -M (--mirrors) #PEP-381
+        $ pip install <mark>-e</mark> git/hg/svn
+      </code>
+    </pre>
 	</div></section>
   
-	<section class="slide"><div>
-		<h2>Quote</h2>
-		<figure>
-			<blockquote>
-				<p>Typewriter etsy messenger bag fingerstache, aesthetic vinyl semiotics twee DIY forage chillwave. Thundercats ennui messenger bag, squid carles chillwave shoreditch pickled cliche letterpress.</p>
-			</blockquote>
-			<figcaption>Author Name</figcaption>
-		</figure>
-		<p>DIY beard locavore occupy salvia, whatever single-origin coffee fanny pack 3 wolf moon typewriter gastropub kale chips.</p>
+	<section class="slide" id="PIPConfiguration"><div>
+    <h2>PIP useful configuration options</h2>
+    <pre>
+      <code style="font-size: 1em; line-height: 1.4em">
+        # $HOME/.pip/pip.conf
+        [global]
+        timeout = 60
+        index-url = http://local.cheeseshop/
+        <mark>download_cache</mark> = ~/.cache/pip
+      </code>
+    </pre>
 	</div></section>
-	<section class="slide"><div>
-		<h2>Numbered code listing</h2>
-		<pre>
-			<code>&lt;html lang="en"&gt;</code>
-			<code><mark>&lt;head&gt;</mark> <mark class="comment">&lt;!--Comment--&gt;</mark></code>
-			<code>    &lt;title&gt;Shower&lt;/title&gt;</code>
-			<code>    &lt;meta charset="<mark class="important">UTF-8</mark>"&gt;</code>
-			<code>    &lt;link rel="stylesheet" href="s/screen.css"&gt;</code>
-			<code>    &lt;script src="j/jquery.js"&gt;&lt;/script&gt;</code>
-			<code><mark>&lt;/head&gt;</mark></code>
-		</pre>
+
+	<section class="slide" id="WheelPackages"><div>
+    <h2>The Wheel Binary Package Format </h2>
+    <a href="http://peps.io/427/">PEP-427</a>
+    <pre>
+      <code style="font-size: 1em; line-height: 1.4em">
+        pip wheel [options] <requirement specifier> ...
+        pip wheel [options] -r <requirements file> ...
+        pip wheel [options] <vcs project url> ...
+        pip wheel [options] <local project path> ...
+        pip wheel [options] <archive url/path> ...
+      </code>
+    </pre>
 	</div></section>
-	<section class="slide"><div>
-		<h2>Plain code listing</h2>
-		<pre><code>&lt;html lang="en"&gt;
-<mark>&lt;head&gt;</mark> <mark class="comment">&lt;!--Comment--&gt;</mark>
-    &lt;title&gt;Shower&lt;/title&gt;
-    &lt;meta charset="<mark class="important">UTF-8</mark>"&gt;
-    &lt;link rel="stylesheet" href="s/screen.css"&gt;
-    &lt;script src="j/jquery.js"&gt;&lt;/script&gt;
-<mark>&lt;/head&gt;</mark></code></pre>
-	</div></section>
-	<section class="slide shout"><div>
+
+	<section class="slide shout" id="Future"><div>
 		<h2>
-			You Can<br>
-			Shout This Way
-		</h2>
-		<footer>
-			Typewriter etsy messenger bag fingerstache.
-		</footer>
+      Future of python packaging
+    </h2>
 	</div></section>
-	<section class="slide cover"><div>
-		<img src="pictures/exact.png" alt="">
+
+	<section class="slide" id="FutureList"><div>
+    <h2>Future of python packaging</h2>
+    <ol>
+      <li>standalone setup tool that install and uninstall packages</li>
+      <li class="next">metadata will be available outside of Python file in <mark>setup.cfg</mark></li>
+      <li class="next">already in Python 3 trun as a <mark>packaging</mark></li>
+      
+    </ol>
 	</div></section>
-	<section class="slide cover w"><div>
-		<img src="pictures/wide.png" alt="">
+  
+	<section class="slide" id="Distutils2"><div>
+    <h2>Some of the distutils2 features</h2>
+    <a href="http://peps.io/426/">http://peps.io/426/</a>
+    <pre>
+      <code style="font-size: 1em; line-height: 1.4em">
+        Requires-External: C
+        Requires-External: <mark>libpng (>=1.5)</mark> #PIL :)
+        
+        <mark>Requires-Dist</mark> package; python_version == '2.5'
+        
+        <mark>Obsoletes-Dist</mark>: OtherProject (<3.0)
+      </code>
+    </pre>
 	</div></section>
-	<section class="slide cover h"><div>
-		<img src="pictures/tall.png" alt="">
-		<footer>
-			Typewriter etsy messenger bag fingerstache.
-		</footer>
+  
+	<section class="slide" id="Follow"><div>
+    <ol>
+      <li>KISS</li>
+      <li class="next">Follow a standards</li>
+      <li class="next">Use best practices of virtualenv/pip</li>
+      <li class="next">Read PEPs and lookout for new changes in distutils2</li>
+      <li class="next">Share your experience</li>
+    </ol>
 	</div></section>
-	<section class="slide cover h"><div>
-		<img src="pictures/wide.png" alt="">
+
+	<section class="slide shout" id="Thanks"><div>
+		<h2>
+      Thank you! LvivPy#2 is awesome :)
+    </h2>
 	</div></section>
-	<section class="slide cover w"><div>
-		<img src="pictures/tall.png" alt="">
+
+	<section class="slide shout" id="Questions"><div>
+		<h2>
+      Question?
+    </h2>
 	</div></section>
-	<section class="slide shout"><div>
-		<img src="pictures/square.png" alt="" class="place t l">
-		<img src="pictures/square.png" alt="" class="place t">
-		<img src="pictures/square.png" alt="" class="place t r">
-		<img src="pictures/square.png" alt="" class="place l">
-		<img src="pictures/square.png" alt="" class="place">
-		<img src="pictures/square.png" alt="" class="place r">
-		<img src="pictures/square.png" alt="" class="place b l">
-		<img src="pictures/square.png" alt="" class="place b">
-		<img src="pictures/square.png" alt="" class="place b r">
-	</div></section>
-	<section class="slide" data-timing="00:03"><div>
-		<h2>Timer</h2>
-		<p>Three seconds to go.</p>
-	</div></section>
-	<section class="slide"><div>
-		<h2>List navigation</h2>
-		<ol>
-			<li>Ennui keffiyeh thundercats</li>
-			<li class="next">Jean shorts biodiesel</li>
-			<li class="next">Terry richardson, swag blog</li>
-			<li class="next">Locavore umami vegan helvetica</li>
-			<li class="next">Fingerstache kale chips</li>
-		</ol>
-		<p class="next">Before they sold out master</p>
-	</div></section>
+
 	<p class="badge"><a href="https://github.com/rootart/lvivpy-python-packaging">Fork me on Github</a></p>
 	<!--
 		To hide progress bar from entire presentation
